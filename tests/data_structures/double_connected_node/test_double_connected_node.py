@@ -1,4 +1,5 @@
-from tasks.data_stuctures.double_connected_node.solution import turn_list, DoubleConnectedNode
+import pytest
+from tasks.data_stuctures.double_connected_node.double_connected_node import turn_list, DoubleConnectedNode
 
 def list_to_double_connected(values):
     """
@@ -23,30 +24,24 @@ def double_connected_to_list(head):
     return result
 
 
-def test():
-    """
-    Test that 'turn_list' function works as dll reverser
-    """
-    print("Tests started")
-
+def test_one_node():
     node = DoubleConnectedNode(10)
     new_head = turn_list(node)
     assert new_head is node
     assert new_head.next is None
     assert new_head.prev is None
     
-
+def test_two_nodes():
     head = list_to_double_connected([1, 2])
     new_head = turn_list(head)
     assert double_connected_to_list(new_head) == [2, 1]
     assert new_head.next.prev is new_head
-    
-
+   
+def test_chars():
     head = list_to_double_connected(["a", "b", "c", "d"])
     new_head = turn_list(head)
     assert double_connected_to_list(new_head) == ["d", "c", "b", "a"]
     
-
     d, c, b, a = new_head, new_head.next, new_head.next.next, new_head.next.next.next
     assert d.prev is None
     assert d.next is c
@@ -57,7 +52,7 @@ def test():
     assert a.prev is b
     assert a.next is None
     
-
+def test_numbers():
     head = list_to_double_connected([5, 6, 7])
     new_head = turn_list(head)
     cur = new_head
@@ -65,7 +60,7 @@ def test():
         assert cur.next.prev is cur
         cur = cur.next
        
-
+def test_large_list():
     big_list = list(range(1000))
     head = list_to_double_connected(big_list)
     new_head = turn_list(head)
@@ -74,7 +69,3 @@ def test():
     while cur.next:
         assert cur.next.prev is cur
         cur = cur.next
-       
-    
-    print("Tests were successful")
-test()
